@@ -11,7 +11,7 @@ return [
         [
             \Structural\System\ConfigStruct::S_IP=>"0.0.0.0",
             \Structural\System\ConfigStruct::S_PORT=>"6008",
-            \Structural\System\ConfigStruct::S_TYPE=>\Structural\System\SwooleProtocol::TCP_PROTOCOL,//暂时只是支持swoole的TCP
+            \Structural\System\ConfigStruct::S_TYPE=>\Structural\System\SwooleProtocol::TCP_PROTOCOL,
             \Structural\System\ConfigStruct::S_CONTROLLER=>\Controller\LogSentryController::class,
             \Structural\System\ConfigStruct::S_PROTOCOL_TYPE=>\Structural\System\ProtocolTypeStruct::LOG_SENTRY_PROTOCOL
         ]
