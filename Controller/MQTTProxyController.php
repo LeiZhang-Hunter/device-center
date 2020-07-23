@@ -13,7 +13,6 @@ class MQTTProxyController extends MQTTProxyHandle
 {
     public function onConnect($protocol)
     {
-
     }
 
     public function onDisConnect($protocol)
