@@ -6,17 +6,13 @@
  * Time: 下午7:06
  */
 include_once "../device-center-framework/autoload.php";
+
+NameSpaceClass::addNameSpace("Controller",__DIR__."/Controller");
 //设置服务名称
 \Pendant\FrameworkEnv::setServiceName("device-center");
 
 //设置项目根路径
 \Pendant\FrameworkEnv::setProjectDir(__DIR__);
-
-class A{
-
-}
-
-\Structural\System\EventStruct::addCall(1, 400 , A::class);
 
 $swooleSocket = \Pendant\SwooleSysSocket::getInstance();
 
