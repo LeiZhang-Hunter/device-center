@@ -28,16 +28,17 @@ class MQTTProxyController extends MQTTProxyHandle
         $protocol->mqtt_type = MQTTProxyProtocolStruct::OnConnectMessage;
         $protocol->message_no = 0;
         $protocol->payload = "";
+        var_dump($protocol);
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));
     }
 
-    public function onDisConnect($protocol)
+    public function onDisConnect(MQTTProxyProtocolStruct $protocol)
     {
 
     }
 
-    public function onSubscribe($protocol)
+    public function onSubscribe(MQTTProxyProtocolStruct $protocol)
     {
         $topic = $protocol->payload["topic"];
         $message_id = $protocol->payload["message_id"];
@@ -54,23 +55,26 @@ class MQTTProxyController extends MQTTProxyHandle
             $this->tool->pack($protocol));
     }
 
-    public function onUnSubscribe($protocol)
+    public function onUnSubscribe(MQTTProxyProtocolStruct $protocol)
     {
 
     }
 
-    public function onPublish($protocol)
+    public function onPublish(MQTTProxyProtocolStruct $protocol)
     {
         $topic = $protocol->payload["topic"];
         $message_id = $protocol->payload["message_id"];
         $qos_level = $protocol->payload["qos_level"];
+        $message = $protocol->payload["message"];
+        var_dump($message);
         $protocol->type = 0;
-        $protocol->mqtt_type = MQTTProxyProtocolStruct::OnSubscribeMessage;
+        $protocol->mqtt_type = MQTTProxyProtocolStruct::OnPublishMessage;
         $protocol->message_no = 0;
         $protocol->payload = json_encode([
             "topic"=>$topic,
             "message_id" => $message_id,
-            "qos_level" => $qos_level
+            "qos_level" => $qos_level,
+            "message" => $message
         ]);
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));
