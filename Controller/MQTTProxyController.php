@@ -28,7 +28,6 @@ class MQTTProxyController extends MQTTProxyHandle
         $protocol->mqtt_type = MQTTProxyProtocolStruct::OnConnectMessage;
         $protocol->message_no = 0;
         $protocol->payload = "";
-        var_dump($protocol);
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));
     }
@@ -51,6 +50,8 @@ class MQTTProxyController extends MQTTProxyHandle
             "message_id" => $message_id,
             "qos_level" => $qos_level
         ]);
+        var_dump($topic);
+
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));
     }

@@ -7,7 +7,7 @@
  */
 return [
     "device-center-pid-file" => \Pendant\FrameworkEnv::$project_dir."/Run/device-center.pid",
-    "sentry_log_file" => \Pendant\FrameworkEnv::$project_dir."/Log",
+    "sentry_log_file" => \Pendant\FrameworkEnv::$project_dir."/Log/",
     \Structural\System\ConfigStruct::SERVER => [
         [
             \Structural\System\ConfigStruct::S_IP=>"0.0.0.0",
