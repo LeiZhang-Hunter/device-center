@@ -4,7 +4,7 @@ include_once "../device-center-framework/autoload.php";
 
 $pool = [];
 
-$process_num = 10;
+$process_num = 100;
 $request_number = 100;
 for($i = 0;$i<$process_num;$i++)
 {
@@ -31,7 +31,6 @@ for($i = 0;$i<$process_num;$i++)
             {
                 continue;
             }
-            var_dump("a$i");
             $package = array(
                 'cmd' => \Vendor\MqttBench\Mqtt::CMD_SUBSCRIBE,
                 'topics' => [
