@@ -8,6 +8,8 @@
 return [
     "device-center-pid-file" => \Pendant\FrameworkEnv::$project_dir."/Run/device-center.pid",
     "sentry_log_file" => \Pendant\FrameworkEnv::$project_dir."/Log/",
+    "task_worker_num" => 1,
+    "worker_num" => 1,
     \Structural\System\ConfigStruct::SERVER => [
         [
             \Structural\System\ConfigStruct::S_IP=>"0.0.0.0",

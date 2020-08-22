@@ -8,7 +8,7 @@
 namespace Controller;
 use Pendant\Common\MQTTProxyTool;
 use Pendant\Common\Tool;
-use Pendant\MQTTProxyHandle;
+use Pendant\MQTT\MQTTProxyHandle;
 use Pendant\SwooleSysSocket;
 use Structural\System\MQTTProxyProtocolStruct;
 
