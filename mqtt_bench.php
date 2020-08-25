@@ -4,8 +4,9 @@ include_once "../device-center-framework/autoload.php";
 
 $pool = [];
 
-$process_num = 100;
-$request_number = 100;
+global $argv;
+$process_num = $argv[1];
+$request_number = $argv[2];
 for($i = 0;$i<$process_num;$i++)
 {
     $process = new Swoole\Process(function ($worker){
@@ -15,7 +16,7 @@ for($i = 0;$i<$process_num;$i++)
         $end = $begin + $request_number;
         for($i =$begin;$i<$end;$i++) {
             $client = new Swoole\Client(SWOOLE_SOCK_TCP);
-            $r = $client->connect('127.0.0.1', 9500, -1);
+            $r = $client->connect('127.0.0.1', 1883, -1);
             $package = array(
                 'cmd' => \Vendor\MqttBench\Mqtt::CMD_CONNECT,
                 'clean_session' => 0,
@@ -34,12 +35,16 @@ for($i = 0;$i<$process_num;$i++)
             $package = array(
                 'cmd' => \Vendor\MqttBench\Mqtt::CMD_SUBSCRIBE,
                 'topics' => [
-                    "a$i"=>1
+                    "mqtt"=>1
                 ],
                 'message_id' => 1,
             );
             $client->send(\Vendor\MqttBench\Mqtt::encode($package));
+            $r = $client->recv();
         }
+
+        while (1);
+
     });
     $process->number = $i;
     $process->request = $request_number;

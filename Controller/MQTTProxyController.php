@@ -50,7 +50,6 @@ class MQTTProxyController extends MQTTProxyHandle
             "message_id" => $message_id,
             "qos_level" => $qos_level
         ]);
-        var_dump($topic);
 
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));

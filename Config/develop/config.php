@@ -16,6 +16,7 @@ return [
             \Structural\System\ConfigStruct::S_PORT=>"9800",
             \Structural\System\ConfigStruct::S_TYPE=>\Structural\System\SwooleProtocol::TCP_PROTOCOL,
             \Structural\System\ConfigStruct::S_CONTROLLER=>\Controller\MQTTProxyController::class,
+            \Structural\System\ConfigStruct::S_MQTT_CLIENT_CONTROLLER=>\Controller\MQTTProxyController::class,
             \Structural\System\ConfigStruct::S_PROTOCOL_TYPE=>\Structural\System\ProtocolTypeStruct::MQTT_PROXY_PROTOCOL
         ]
     ]
