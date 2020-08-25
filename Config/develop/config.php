@@ -6,18 +6,18 @@
  * Time: 下午7:10
  */
 return [
-    "device-center-pid-file" => \Pendant\FrameworkEnv::$project_dir."/Run/device-center.pid",
-    "sentry_log_file" => \Pendant\FrameworkEnv::$project_dir."/Log/",
+    "device-center-pid-file" => \Pendant\FrameworkEnv::$project_dir . "/Run/device-center.pid",
+    "sentry_log_file" => \Pendant\FrameworkEnv::$project_dir . "/Log/",
     "task_worker_num" => 1,
     "worker_num" => 1,
     \Structural\System\ConfigStruct::SERVER => [
         [
-            \Structural\System\ConfigStruct::S_IP=>"0.0.0.0",
-            \Structural\System\ConfigStruct::S_PORT=>"9800",
-            \Structural\System\ConfigStruct::S_TYPE=>\Structural\System\SwooleProtocol::TCP_PROTOCOL,
-            \Structural\System\ConfigStruct::S_CONTROLLER=>\Controller\MQTTProxyController::class,
-            \Structural\System\ConfigStruct::S_MQTT_CLIENT_CONTROLLER=>\Controller\MQTTProxyController::class,
-            \Structural\System\ConfigStruct::S_PROTOCOL_TYPE=>\Structural\System\ProtocolTypeStruct::MQTT_PROXY_PROTOCOL
+            \Structural\System\ConfigStruct::S_IP => "0.0.0.0",
+            \Structural\System\ConfigStruct::S_PORT => "9800",
+            \Structural\System\ConfigStruct::S_TYPE => \Structural\System\SwooleProtocol::TCP_PROTOCOL,
+            \Structural\System\ConfigStruct::S_CONTROLLER => \Controller\MQTTProxyController::class,
+            \Structural\System\DeviceCenterClientStruct::S_MQTT_CLIENT_CONTROLLER => \Controller\MQTTProxyController::class,
+            \Structural\System\ConfigStruct::S_PROTOCOL_TYPE => \Structural\System\ProtocolTypeStruct::MQTT_PROXY_PROTOCOL
         ]
     ]
 ];

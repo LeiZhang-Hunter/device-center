@@ -18,6 +18,7 @@ class MQTTProxyController extends MQTTProxyHandle
 
     public function __construct()
     {
+        $this->regDeviceCenterServer(DeviceCenterController::class);
         $this->tool = MQTTProxyTool::getInstance();
     }
 
