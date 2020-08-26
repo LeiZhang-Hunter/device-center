@@ -16,7 +16,7 @@ class DeviceCenterController extends DeviceCenterHandle
     public function onReceive(MQTTProxyProtocolStruct $protocol)
     {
         // TODO: Implement onReceive() method.
-        var_dump($protocol);
+        //
     }
 
     public function onClose()
