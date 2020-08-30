@@ -8,6 +8,7 @@
 namespace Controller;
 use Pendant\Common\MQTTProxyTool;
 use Pendant\Common\Tool;
+use Pendant\MQTT\DeviceCenterHandle;
 use Pendant\MQTT\MQTTProxyHandle;
 use Pendant\SwooleSysSocket;
 use Structural\System\MQTTProxyProtocolStruct;
@@ -67,17 +68,23 @@ class MQTTProxyController extends MQTTProxyHandle
         $message_id = $protocol->payload["message_id"];
         $qos_level = $protocol->payload["qos_level"];
         $message = $protocol->payload["message"];
-        var_dump($message);
         $protocol->type = 0;
         $protocol->mqtt_type = MQTTProxyProtocolStruct::OnPublishMessage;
         $protocol->message_no = 0;
-        $protocol->payload = json_encode([
+        $payload = [
             "topic"=>$topic,
             "message_id" => $message_id,
             "qos_level" => $qos_level,
             "message" => $message
-        ]);
+        ];
+        $protocol->payload = json_encode($payload);
         SwooleSysSocket::$swoole_server->send($protocol->fd,
             $this->tool->pack($protocol));
+
+        $request = explode("/", $topic);
+        if ($request[1] == "response") {
+            $protocol->payload = $payload;
+            $this->getDeviceCenterDispatch()->dispatcher($protocol);
+        }
     }
 }
