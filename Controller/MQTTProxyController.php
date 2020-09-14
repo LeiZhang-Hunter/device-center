@@ -11,6 +11,7 @@ use Pendant\Common\Tool;
 use Pendant\MQTT\DeviceCenterHandle;
 use Pendant\MQTT\MQTTProxyHandle;
 use Pendant\SwooleSysSocket;
+use Structural\System\DeviceCenterClientStruct;
 use Structural\System\MQTTProxyProtocolStruct;
 
 class MQTTProxyController extends MQTTProxyHandle
@@ -84,6 +85,7 @@ class MQTTProxyController extends MQTTProxyHandle
         $request = explode("/", $topic);
         if ($request[1] == "response") {
             $protocol->payload = $payload;
+            $protocol->type = DeviceCenterClientStruct::OnClientReceive;
             $this->getDeviceCenterDispatch()->dispatcher($protocol);
         }
     }

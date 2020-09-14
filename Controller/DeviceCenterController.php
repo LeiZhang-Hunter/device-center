@@ -6,6 +6,7 @@ use Pendant\Common\MQTTProxyTool;
 use Pendant\MQTT\DeviceCenterHandle;
 use Pendant\MQTT\MQTTProxyPool;
 use Pendant\SwooleSysSocket;
+use Structural\System\DeviceCenterClientStruct;
 use Structural\System\MQTTProxyProtocolStruct;
 
 class DeviceCenterController extends DeviceCenterHandle
@@ -30,10 +31,10 @@ class DeviceCenterController extends DeviceCenterHandle
         // TODO: Implement onReceive() method.
         //
         $payload = ($protocol->payload);
-        var_dump($payload);
         $client_id = $protocol->client_id;
         $message = $protocol->payload["message"];
-        if ($protocol->type == MQTTProxyProtocolStruct::DEVICE_CENTER_CLIENT) {
+        $topic = isset($payload["topic"]) ? $payload["topic"] : "";
+        if (!$topic) {
             $token = md5(uniqid());
             $pack_protocol = new MQTTProxyProtocolStruct();
             $pack_protocol->type = MQTTProxyProtocolStruct::MQTT_PROXY;
@@ -42,33 +43,35 @@ class DeviceCenterController extends DeviceCenterHandle
             $pack_protocol->message_no = MQTTProxyProtocolStruct::RETURN_OK;
             $payload["topic"] = $client_id . "/request/" . $token;
             $pack_protocol->payload = json_encode($payload);
-
             $this->responsePool[$token] = $protocol->fd;
-            var_dump($pack_protocol);
+            $this->responsePool[$protocol->fd] = $token;
             SwooleSysSocket::$swoole_server->send(MQTTProxyPool::getInstance()->getProxy(),
                 $this->tool->pack($pack_protocol));
         } else {
-            var_dump($this->responsePool);
-            $topic = ($payload["topic"]);
             $responseMsg = explode("/", $topic);
             if ($responseMsg[1] == "response") {
                 $response_token = $responseMsg[2];
-                    if (isset($this->responsePool[$response_token])) {
-                        $client_fd = $this->responsePool[$response_token];
-                        SwooleSysSocket::$swoole_server->send($client_fd, json_encode([
-                            "code" => 0,
-                            "msg" => $message
-                        ]));
-                    }
-                    echo "not exist\n";
+                if (isset($this->responsePool[$response_token])) {
+                    $client_fd = $this->responsePool[$response_token];
+                    SwooleSysSocket::$swoole_server->send($client_fd, json_encode([
+                        "code" => 0,
+                        "msg" => $message
+                    ]));
+                }
             }
 
         }
+
     }
 
-    public function onClose()
+    public function onClose(MQTTProxyProtocolStruct $protocol)
     {
-        // TODO: Implement onClose() method.
+        if (isset($this->responsePool[$protocol->fd])) {
+            $token = $this->responsePool[$protocol->fd];
+            var_dump($token);
+            unset($this->responsePool[$protocol->fd]);
+            unset($this->responsePool[$token]);
+        }
     }
 
 }
